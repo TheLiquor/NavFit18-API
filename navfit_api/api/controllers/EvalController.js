@@ -1,9 +1,21 @@
 var _ = require('lodash');
-
+var pdfFiller =  require('pdffiller-stream');
+var sourcePDF = "C:/Users/joseph.fowler/Desktop/Military/NAVPERS_1616-26_Rev11-11.pdf";
 module.exports = {
   makePDF: function (req, res) {
     try{
-      console.log(req.allParams());
+      const data = {
+        "desig" : "John"
+      };
+
+      pdfFiller.fillForm( sourcePDF, data)
+        .then((outputStream) => {
+          console.log(outputStream);
+          // use the outputStream here;
+          // will be instance of stream.Readable
+        }).catch((err) => {
+        console.log(err);
+      });
       return res.ok();
     }catch(e){
       console.log(e);
