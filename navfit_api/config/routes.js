@@ -62,4 +62,7 @@ module.exports.routes = {
   '/terms':                   '/legal/terms',
   '/logout':                  '/api/v1/account/logout',
 
+  // My routes
+  'POST /sendEval': 'EvalController.makePDF',
+
 };
