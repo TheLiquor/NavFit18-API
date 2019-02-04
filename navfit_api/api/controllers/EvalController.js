@@ -4,18 +4,27 @@ var sourcePDF = "C:/Users/joseph.fowler/Desktop/Military/NAVPERS_1616-26_Rev11-1
 module.exports = {
   makePDF: function (req, res) {
     try{
+      const destinationPDF = "C:\Users\fowle\Desktop\NavFitProject"; // local download location
       const data = {
-        "desig" : "John"
+        "Name_Last_First_MI_Suffix" : req.param('lastName') +  req.param('firstName') + req.param('middleInitial') + req.param('suffix'),
+        "GradeRate" : req.param('rate'),
+        "Desig" : req.param('desig'),
+        "SSN" : req.param('ssn'),
+        "Periodic" : req.param('reportOccasion'),
+        "UIC" : req.param('uic'),
+        "ShipStation" : req.param('station'),
+        "Promotion_Status" : req.param('promotionStatus'),
+        "Date_Reported" : req.param('reportDate'),
+        "NOB" : req.param('nob'),
+        "Report_Regular" : req.param('reportType'),
+        "Physical_Readiness" : req.param('physical'),
+        "Billet" : req.param('billet')
       };
 
-      pdfFiller.fillForm( sourcePDF, data)
-        .then((outputStream) => {
-          console.log(outputStream);
-          // use the outputStream here;
-          // will be instance of stream.Readable
-        }).catch((err) => {
-        console.log(err);
-      });
+      pdfFiller.fillForm( sourcePDF, destinationPDF, data, function(err) {
+        if (err) throw err;
+        console.log("In callback (we're done).");
+    });
       return res.ok();
     }catch(e){
       console.log(e);
@@ -23,37 +32,4 @@ module.exports = {
     }
   }
 }
-// module.exports = {
-//
-//
-//   friendlyName: 'Make PDF',
-//
-//
-//   description: 'Creates evaluation PDF.',
-//
-//
-//   extendedDescription:
-//     `Blah`,
-//
-//
-//   exits: {
-//
-//     success: {
-//       description: 'It worked'
-//     },
-//
-//     redirect: {
-//       description: 'The requesting user agent looks to be a web browser.',
-//       extendedDescription: 'After logging out from a web browser, the user is redirected away.',
-//       responseType: 'nothing'
-//     }
-//
-//   },
-//
-//
-//   fn: async function (inputs, exits) {
-//     console.log(inputs);
-//   }
-//
-//
-// };
+
